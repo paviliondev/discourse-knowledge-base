@@ -1,14 +1,6 @@
-# DiscourseKnowledgeBase
-
-DiscourseKnowledgeBase is a plugin for ...
-
 ## Installation
 
-Follow [Install a Plugin](https://meta.discourse.org/t/install-a-plugin/19157)
-how-to from the official Discourse Meta, using `git clone https://github.com/angusmcleod/discourse-knowledge-base.git`
-as the plugin command.
-
-## Usage
+See [Install a Plugin](https://meta.discourse.org/t/install-a-plugin/19157).
 
 ## Feedback
 
