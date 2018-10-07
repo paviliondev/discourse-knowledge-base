@@ -1,0 +1,11 @@
+<div class="title">
+  <a {{action 'toggleList'}}>{{category.name}}</a>
+</div>
+
+<div class="{{topicListClasses}}">
+  <ul>
+    {{#each topics as |topic|}}
+      {{knowledge-base-topic-list-item topic=topic category=category currentItemId=currentItemId}}
+    {{/each}}
+  </ul>
+</div>

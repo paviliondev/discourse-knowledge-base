@@ -1,0 +1,15 @@
+<div class="knowledge-base-title">
+  <h2>{{i18n 'knowledge_base.title' siteTitle=siteSettings.title}}</h2>
+</div>
+
+<div class="knowledge-base">
+  <div class="knowledge-base-nav">
+    {{#each navList as |item|}}
+      {{knowledge-base-topic-list category=item.category topics=item.topics currentItemId=currentItemId}}
+    {{/each}}
+  </div>
+
+  <div class="knowledge-base-content">
+    {{outlet}}
+  </div>
+</div>
