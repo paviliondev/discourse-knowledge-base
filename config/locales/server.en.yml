@@ -1,3 +1,5 @@
 en:
   site_settings:
-    knowledge_base_enabled: "Enable the knowledge-base"
+    knowledge_base_enabled: "Enable the knowledge base"
+    knowledge_base_title: "Knowledge base title"
+    knowledge_base_description: "Knowledge base description"

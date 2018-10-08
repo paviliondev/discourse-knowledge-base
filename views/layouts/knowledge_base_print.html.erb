@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="<%= html_lang %>">
+  <head>
+    <meta charset="utf-8">
+    <title><%= SiteSetting.title %></title>
+    <meta name="description" content="<%= SiteSetting.site_description %>">
+    <%= render partial: "layouts/head" %>
+    <%- if rtl? %>
+      <%= discourse_stylesheet_link_tag(mobile_view? ? :mobile_rtl : :desktop_rtl) %>
+    <%- else %>
+      <%= discourse_stylesheet_link_tag(mobile_view? ? :mobile : :desktop) %>
+    <%- end %>
+    <%- if theme_ids.present? %>
+      <%= discourse_stylesheet_link_tag(mobile_view? ? :mobile_theme : :desktop_theme) %>
+    <%- end %>
+    <%= theme_lookup("head_tag") %>
+    <%= render_google_universal_analytics_code %>
+    <%= yield :head %>
+  </head>
+  <body class="crawler">
+    <%= theme_lookup("header") %>
+    <header>
+      <a href="<%= path "/" %>"><img src="<%=SiteSetting.logo_url%>" alt="<%=SiteSetting.title%>" id="site-logo" style="max-width: 150px;"></a>
+    </header>
+    <div id="main-outlet" class="wrap">
+      <%- if topic %>
+        <div class="knowledge-base-title">
+          <h2><%= topic.title %></h2>
+        </div>
+      <%- end %>
+      <%- if post %>
+        <div class="knowledge-base-post">
+          <%= post.cooked.html_safe %>
+        </div>
+      <%- end %>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          window.print();
+        });
+      </script>
+    </div>
+    <%= theme_lookup("body_tag") %>
+  </body>
+  <%= yield :after_body %>
+</html>

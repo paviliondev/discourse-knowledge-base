@@ -17,7 +17,8 @@ after_initialize do
 
   DiscourseKnowledgeBase::Engine.routes.draw do
     get "/" => "knowledge_base#index"
-    get "/:slug/:title/:topic_id" => "knowledge_base#topic"
+    get "/:slug/:title/:topic_id" => "knowledge_base#article"
+    get "/:slug/:title/:topic_id/print" => "knowledge_base#article", format: :html, print: true
   end
 
   Discourse::Application.routes.append do
@@ -37,7 +38,12 @@ after_initialize do
   add_to_serializer(:basic_category, :knowledge_base) { object.knowledge_base }
 
   class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
+    prepend_view_path(Rails.root.join('plugins', 'discourse-knowledge-base', 'views'))
     before_action :init_guardian
+    layout :set_layout
+
+    helper_method :topic
+    helper_method :post
 
     def index
       categories = Category.where("id IN (
@@ -59,33 +65,12 @@ after_initialize do
       render json: topic_lists
     end
 
-    def topic
-      params.require(:slug)
-      params.require(:title)
-
-      category = Category.find_by(slug: params[:slug])
-
-      unless @guardian.can_see_category?(category)
-        raise Discourse::InvalidAccess.new
-      end
-
-      opts = {
-        category_id: category.id
-      }
-
-      if params[:topic_id]
-        opts[:id] = params[:topic_id]
-      else
-        opts[:title] = params[:title]
-      end
-
-      topic = Topic.find_by(opts)
-
-      if topic && topic.category.knowledge_base
+    def article
+      if category.knowledge_base && topic
         render_json_dump(
           category_id: category.id,
           topic_id: topic.id,
-          post: PostSerializer.new(topic.first_post, scope: @guardian, root: false)
+          post: PostSerializer.new(post, scope: @guardian, root: false)
         )
       else
         render json: failed_json
@@ -96,6 +81,45 @@ after_initialize do
 
     def init_guardian
       @guardian = Guardian.new(current_user)
+    end
+
+    def set_layout
+      params.key?("print") ? 'knowledge_base_print' : 'application'
+    end
+
+    def topic
+      @topic ||= begin
+        params.require(:title)
+
+        opts = {
+          category_id: category.id
+        }
+
+        if params[:topic_id]
+          opts[:id] = params[:topic_id]
+        else
+          opts[:title] = params[:title]
+        end
+
+        Topic.find_by(opts)
+      end
+    end
+
+    def category
+      @category ||= begin
+        params.require(:slug)
+        category = Category.find_by(slug: params[:slug])
+
+        unless @guardian.can_see_category?(category)
+          raise Discourse::InvalidAccess.new
+        end
+
+        category
+      end
+    end
+
+    def post
+      @post ||= @topic.first_post
     end
   end
 end

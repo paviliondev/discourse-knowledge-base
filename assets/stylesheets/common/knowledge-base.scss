@@ -28,7 +28,7 @@
       padding: 10px;
       display: inline-block;
       box-sizing: border-box;
-      font-size: 1.3em;
+      font-size: 1.2em;
     }
   }
 
@@ -69,9 +69,18 @@
 }
 
 .knowledge-base-title {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+
+  .print {
+    float: right;
+  }
 
   h2 {
     margin-bottom: 0;
+    overflow: hidden;
+  }
+
+  div {
+    max-width: 600px;
   }
 }

@@ -11,12 +11,14 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     const topicsList = this.controllerFor('knowledgeBase').get('topicsList');
+    const category = this.site.get('categories').find(c => c.id === model.category_id);
     let topics = topicsList[model.category_id];
     let topic = topics.find(t => t.id == model.topic_id);
 
     controller.setProperties({
       post: model.post,
-      topic
+      topic,
+      category
     });
   }
 });
