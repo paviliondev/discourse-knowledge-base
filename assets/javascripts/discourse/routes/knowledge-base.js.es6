@@ -15,5 +15,12 @@ export default Ember.Route.extend({
     cookAsync(rawDescription).then((cooked) => {
       controller.set('description', cooked);
     });
+  },
+
+  actions: {
+    goToRoot() {
+      this.controllerFor('knowledgeBase').set('currentItemId', null);
+      DiscourseURL.routeTo('/k');
+    }
   }
 });

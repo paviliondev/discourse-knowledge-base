@@ -2,7 +2,7 @@ import { default as computed, observes } from 'ember-addons/ember-computed-decor
 
 export default Ember.Component.extend({
   classNames: 'knowledge-base-topic-list',
-  visible: false,
+  visible: true,
 
   @observes('currentItemId')
   setVisibleIfCurrent() {

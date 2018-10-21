@@ -19,11 +19,5 @@ export default Ember.Controller.extend({
   @computed('application.currentPath')
   isIndex(currentPath) {
     return currentPath === 'knowledgeBase.index';
-  },
-
-  actions: {
-    goToRoot() {
-      DiscourseURL.routeTo('/k');
-    }
   }
 });
