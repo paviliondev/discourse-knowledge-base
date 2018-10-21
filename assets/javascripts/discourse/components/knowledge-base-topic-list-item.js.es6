@@ -13,6 +13,6 @@ export default Ember.Component.extend({
   topicUrl() {
     const slug = this.get('category.slug');
     const topic = this.get('topic');
-    return '/k' + '/' + slug + '/' + topic.title.dasherize() + '/' + topic.id;
+    return '/k' + '/' + slug + '/' + topic.slug + '/' + topic.id;
   }
 });
