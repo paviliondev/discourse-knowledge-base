@@ -1,6 +1,5 @@
 <div class="knowledge-base-title">
-  <h2>{{siteSettings.knowledge_base_title}}</h2>
-  <div>{{siteSettings.knowledge_base_description}}</div>
+  <h2 {{action 'goToRoot'}}>{{siteSettings.knowledge_base_title}}</h2>
 </div>
 
 <div class="knowledge-base">
@@ -12,5 +11,8 @@
 
   <div class="knowledge-base-content">
     {{outlet}}
+    {{#if isIndex}}
+      {{description}}
+    {{/if}}
   </div>
 </div>
