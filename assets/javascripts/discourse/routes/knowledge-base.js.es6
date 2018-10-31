@@ -1,5 +1,6 @@
 import { ajax } from 'discourse/lib/ajax';
 import { cookAsync } from 'discourse/lib/text';
+import DiscourseURL from 'discourse/lib/url';
 
 export default Ember.Route.extend({
   model() {
