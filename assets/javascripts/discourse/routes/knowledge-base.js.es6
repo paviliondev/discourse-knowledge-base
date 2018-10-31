@@ -11,8 +11,7 @@ export default Ember.Route.extend({
       topicsList: model
     });
 
-    const rawDescription = Discourse.SiteSettings.knowledge_base_description;
-    cookAsync(rawDescription).then((cooked) => {
+    cookAsync(I18n.t('knowledge_base.description')).then((cooked) => {
       controller.set('description', cooked);
     });
   },

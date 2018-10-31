@@ -17,8 +17,9 @@ after_initialize do
 
   DiscourseKnowledgeBase::Engine.routes.draw do
     get "/" => "knowledge_base#index"
-    get "/:slug/:title/:topic_id" => "knowledge_base#article"
-    get "/:slug/:title/:topic_id/print" => "knowledge_base#article", format: :html, print: true
+    get "/:slug/:title/:topic_id" => "knowledge_base#show", defaults: { format: 'html' }
+    get "/:slug/:title/:topic_id.json" => "knowledge_base#show", defaults: { format: 'json' }
+    get "/:slug/:title/:topic_id/print" => "knowledge_base#show", format: :html, print: true
   end
 
   Discourse::Application.routes.append do
@@ -38,7 +39,8 @@ after_initialize do
   add_to_serializer(:basic_category, :knowledge_base) { object.knowledge_base }
 
   class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
-    prepend_view_path(Rails.root.join('plugins', 'discourse-knowledge-base', 'views'))
+    skip_before_action :check_xhr, only: [:show]
+    prepend_view_path(Rails.root.join('plugins', 'discourse-knowledge-base', 'app', 'views'))
     before_action :init_guardian
     layout :set_layout
 
@@ -65,15 +67,25 @@ after_initialize do
       render json: topic_lists
     end
 
-    def article
-      if category.knowledge_base && topic
-        render_json_dump(
-          category_id: category.id,
-          topic_id: topic.id,
-          post: PostSerializer.new(post, scope: @guardian, root: false)
-        )
-      else
-        render json: failed_json
+    def show
+      respond_to do |format|
+        format.html do
+          puts "SHOWING HTML"
+          render :show
+        end
+
+        format.json do
+          puts "SHOWING JSON"
+          if category.knowledge_base && topic
+            render_json_dump(
+              category_id: category.id,
+              topic_id: topic.id,
+              post: PostSerializer.new(post, scope: @guardian, root: false)
+            )
+          else
+            render json: failed_json
+          end
+        end
       end
     end
 

@@ -1,8 +1,8 @@
 import { ajax } from 'discourse/lib/ajax';
 
-export default Ember.Route.extend({
+export default Discourse.Route.extend({
   model(params) {
-    return ajax(`/k/${params.slug}/${params.title}/${params.topic_id}`);
+    return ajax(`/k/${params.slug}/${params.title}/${params.topic_id}.json`);
   },
 
   afterModel(model) {
@@ -20,5 +20,9 @@ export default Ember.Route.extend({
       topic,
       category
     });
+  },
+
+  titleToken() {
+    return this.controllerFor('knowledge-base-topic').get('topic.title');
   }
 });
