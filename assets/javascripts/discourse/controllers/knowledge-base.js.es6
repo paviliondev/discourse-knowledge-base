@@ -9,9 +9,11 @@ export default Ember.Controller.extend({
   navList(topicsList) {
     const categories = Category.list().filter(c => c.knowledge_base);
     return Object.keys(topicsList).map(categoryId => {
+      let category = categories.find(c => c.id.toString() === categoryId.toString());
+      let topics = topicsList[categoryId].filter(t => t.id !== category.topic_id);
       return {
-        category: categories.find(c => c.id.toString() === categoryId.toString()),
-        topics: topicsList[categoryId]
+        category,
+        topics
       };
     });
   },

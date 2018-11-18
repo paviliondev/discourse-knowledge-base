@@ -1,4 +1,5 @@
 import { default as computed } from 'ember-addons/ember-computed-decorators';
+import DiscourseURL from 'discourse/lib/url';
 
 export default Ember.Component.extend({
   tagName: 'li',
@@ -9,10 +10,9 @@ export default Ember.Component.extend({
     return topicId == currentItemId;
   },
 
-  @computed
-  topicUrl() {
+  click() {
     const slug = this.get('category.slug');
     const topic = this.get('topic');
-    return '/k' + '/' + slug + '/' + topic.slug + '/' + topic.id;
+    DiscourseURL.routeTo('/k' + '/' + slug + '/' + topic.slug + '/' + topic.id);
   }
 });

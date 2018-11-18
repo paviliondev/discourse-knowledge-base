@@ -35,6 +35,14 @@ body.crawler .knowledge-base-title {
       box-sizing: border-box;
       font-size: 1.2em;
     }
+
+    &.active {
+      background-color: $tertiary;
+
+      a {
+        color: $secondary;
+      }
+    }
   }
 
   .topics {
@@ -50,18 +58,13 @@ body.crawler .knowledge-base-title {
       margin: 0;
 
       li {
-        a {
-          display: inline-block;
-          box-sizing: border-box;
-          padding: 10px;
-        }
+        box-sizing: border-box;
+        padding: 10px;
+        cursor: pointer;
 
         &.active {
           background-color: $tertiary;
-
-          a {
-            color: $secondary;
-          }
+          color: $secondary;
         }
       }
     }

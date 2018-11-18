@@ -17,6 +17,9 @@ after_initialize do
 
   DiscourseKnowledgeBase::Engine.routes.draw do
     get "/" => "knowledge_base#index"
+    get "/:slug/" => "knowledge_base#section", defaults: { format: 'html' }
+    get "/:slug.json" => "knowledge_base#section", defaults: { format: 'json' }
+    get "/:slug/print" => "knowledge_base#section", format: :html, print: true
     get "/:slug/:title/:topic_id" => "knowledge_base#show", defaults: { format: 'html' }
     get "/:slug/:title/:topic_id.json" => "knowledge_base#show", defaults: { format: 'json' }
     get "/:slug/:title/:topic_id/print" => "knowledge_base#show", format: :html, print: true
@@ -37,13 +40,15 @@ after_initialize do
   end
 
   add_to_serializer(:basic_category, :knowledge_base) { object.knowledge_base }
+  add_to_serializer(:basic_category, :topic_id) { object.topic_id }
 
   class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
-    skip_before_action :check_xhr, only: [:show]
+    skip_before_action :check_xhr, only: [:show, :section]
     prepend_view_path(Rails.root.join('plugins', 'discourse-knowledge-base', 'app', 'views'))
     before_action :init_guardian
     layout :set_layout
 
+    helper_method :page_title
     helper_method :topic
     helper_method :post
 
@@ -67,15 +72,33 @@ after_initialize do
       render json: topic_lists
     end
 
-    def show
+    def section
       respond_to do |format|
         format.html do
-          puts "SHOWING HTML"
           render :show
         end
 
         format.json do
-          puts "SHOWING JSON"
+          if category.knowledge_base && topic
+            render_json_dump(
+              category_id: category.id,
+              topic_id: topic.id,
+              post: PostSerializer.new(post, scope: @guardian, root: false)
+            )
+          else
+            render json: failed_json
+          end
+        end
+      end
+    end
+
+    def show
+      respond_to do |format|
+        format.html do
+          render :show
+        end
+
+        format.json do
           if category.knowledge_base && topic
             render_json_dump(
               category_id: category.id,
@@ -101,16 +124,18 @@ after_initialize do
 
     def topic
       @topic ||= begin
-        params.require(:title)
-
         opts = {
           category_id: category.id
         }
 
-        if params[:topic_id]
-          opts[:id] = params[:topic_id]
-        else
-          opts[:title] = params[:title]
+        if params[:action] == "show"
+          if params[:topic_id]
+            opts[:id] = params[:topic_id]
+          else
+            opts[:title] = params[:title]
+          end
+        elsif params[:action] == "section"
+          opts[:id] = category.topic_id
         end
 
         Topic.find_by(opts)
@@ -127,6 +152,14 @@ after_initialize do
         end
 
         category
+      end
+    end
+
+    def page_title
+      if params[:action] == "show"
+        topic.title
+      elsif params[:action] == "section"
+        category.name
       end
     end
 
