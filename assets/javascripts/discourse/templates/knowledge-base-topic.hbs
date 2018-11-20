@@ -4,11 +4,7 @@
     icon="print"
     action="print"
     class="print"}}
-  <h2>{{topic.title}}</h2>
-  <a class="go-to-topic" {{action 'goToTopic'}}>
-    {{d-icon 'sign-out'}}
-    <span>{{i18n 'knowledge_base.go_to_topic'}}</span>
-  </a>
+  <a {{action 'goToTopic'}}><h2>{{topic.title}}</h2></a>
 </div>
 <div class="knowledge-base-post">
   {{{post.cooked}}}
