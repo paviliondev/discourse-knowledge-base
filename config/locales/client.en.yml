@@ -4,4 +4,5 @@ en:
       title: "{{siteTitle}} Knowledge Base"
       description: |
         Welcome to the knowledge base!
+      category: "Knowledge base category"
       go_to_topic: "Go to topic"
