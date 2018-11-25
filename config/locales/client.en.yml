@@ -4,10 +4,4 @@ en:
       title: "{{siteTitle}} Knowledge Base"
       description: |
         Welcome to the knowledge base!
-        ### Helpdesk
-        - [New User Registration](https://community.namati.org/k/helpdesk/testing-new-user-registration-process/883)
-        - [Change Username](https://community.namati.org/k/helpdesk/change-a-network-members-username-wordpress-and-discourse/1189)
-        - [Canned Replies](https://community.namati.org/k/helpdesk/use-canned-replies-for-commonly-repeated-forum-messages/41144)
-        - [Activate Account](https://community.namati.org/k/helpdesk/activate-pending-user-account-on-behalf-of-a-new-member/41151)
-      category: "Knowledge base category"
       go_to_topic: "Go to topic"
