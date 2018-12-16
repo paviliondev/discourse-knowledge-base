@@ -1,11 +1,28 @@
 <div class="{{categoryClass}}">
   <a href={{categoryUrl}}>{{category.name}}</a>
+  <div class="controls">
+    {{#if visible}}
+      {{conditional-loading-spinner condition=saving size="small"}}
+      {{#if showSortControls}}
+        {{d-button action="saveSort" label="knowledge_base.save" disabled=saving}}
+        {{d-button action="toggleSortControls" label="cancel" disabled=saving}}
+      {{/if}}
+      {{#if showSortToggle}}
+        {{d-button action="toggleSortControls" icon="list"}}
+      {{/if}}
+    {{/if}}
+  </div>
 </div>
 
 <div class="{{topicListClasses}}">
   <ul>
-    {{#each topics as |topic|}}
-      {{knowledge-base-topic-list-item topic=topic category=category currentItemId=currentItemId}}
+    {{#each sortedTopics as |topic|}}
+      {{knowledge-base-topic-list-item
+          topic=topic
+          category=category
+          currentItemId=currentItemId
+          showSortControls=showSortControls
+          sort=(action "sort")}}
     {{/each}}
   </ul>
 </div>

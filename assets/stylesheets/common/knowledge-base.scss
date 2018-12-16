@@ -25,12 +25,13 @@ body.crawler .knowledge-base-title {
 
   .title {
     background-color: $primary-low;
-    border: 1px solid $primary-low;
+    display: flex;
+    align-items: center;
+    padding: 10px;
 
     a {
       width: 100%;
       height: 100%;
-      padding: 10px;
       display: inline-block;
       box-sizing: border-box;
       font-size: 1.2em;
@@ -41,6 +42,25 @@ body.crawler .knowledge-base-title {
 
       a {
         color: $secondary;
+      }
+
+      .btn {
+        color: $secondary;
+      }
+    }
+
+    .controls {
+      min-width: 80px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .btn {
+        background: transparent;
+
+        &:hover {
+          color: $primary;
+        }
       }
     }
   }
@@ -61,10 +81,17 @@ body.crawler .knowledge-base-title {
         box-sizing: border-box;
         padding: 10px;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         &.active {
           background-color: $tertiary;
           color: $secondary;
+        }
+
+        .sort-controls {
+          white-space: nowrap;
         }
       }
     }

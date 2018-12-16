@@ -1,1 +1,16 @@
-{{topic.title}}
+<span>{{title}}</span>
+
+{{#if showSortControls}}
+  <div class="sort-controls">
+    {{#if topic.isFirst}}
+      {{d-button action=sort actionParam=(hash topicId=topic.id sort="bottom") icon="angle-double-down" disabled=saving}}
+    {{else}}
+      {{d-button action=sort actionParam=(hash topicId=topic.id sort="up") icon="angle-up" disabled=saving}}
+    {{/if}}
+    {{#if topic.isLast}}
+      {{d-button action=sort actionParam=(hash topicId=topic.id sort="top") icon="angle-double-up" disabled=saving}}
+    {{else}}
+      {{d-button action=sort actionParam=(hash topicId=topic.id sort="down") icon="angle-down" disabled=saving}}
+    {{/if}}
+  </div>
+{{/if}}

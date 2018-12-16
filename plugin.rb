@@ -7,6 +7,17 @@ enabled_site_setting :knowledge_base_enabled
 
 register_asset 'stylesheets/common/knowledge-base.scss'
 
+if respond_to?(:register_svg_icon)
+  register_svg_icon "print"
+  register_svg_icon "angle-double-up"
+  register_svg_icon "angle-double-down"
+end
+
+Discourse.top_menu_items.push(:kb)
+Discourse.anonymous_top_menu_items.push(:kb)
+Discourse.filters.push(:kb)
+Discourse.anonymous_filters.push(:kb)
+
 after_initialize do
   module ::DiscourseKnowledgeBase
     class Engine < ::Rails::Engine
@@ -20,6 +31,7 @@ after_initialize do
     get "/:slug/" => "knowledge_base#section", defaults: { format: 'html' }
     get "/:slug.json" => "knowledge_base#section", defaults: { format: 'json' }
     get "/:slug/print" => "knowledge_base#section", format: :html, print: true
+    put "/:slug/sort" => "knowledge_base#sort"
     get "/:slug/:title/:topic_id" => "knowledge_base#show", defaults: { format: 'html' }
     get "/:slug/:title/:topic_id.json" => "knowledge_base#show", defaults: { format: 'json' }
     get "/:slug/:title/:topic_id/print" => "knowledge_base#show", format: :html, print: true
@@ -42,129 +54,31 @@ after_initialize do
   add_to_serializer(:basic_category, :knowledge_base) { object.knowledge_base }
   add_to_serializer(:basic_category, :topic_id) { object.topic_id }
 
-  class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
-    skip_before_action :check_xhr, only: [:show, :section]
-    prepend_view_path(Rails.root.join('plugins', 'discourse-knowledge-base', 'app', 'views'))
-    before_action :init_guardian
-    layout :set_layout
+  Topic.register_custom_field_type('knowledge_base_index', :integer)
 
-    helper_method :page_title
-    helper_method :topic
-    helper_method :post
-
-    def index
-      categories = Category.where("id IN (
-        SELECT category_id FROM category_custom_fields
-        WHERE name = 'knowledge_base'
-        AND value::boolean IS TRUE
-      )")
-
-      categories = categories.select { |c| @guardian.can_see_category?(c) }
-
-      topic_lists = {}
-
-      categories.each do |c|
-        if topics = Topic.where(category_id: c.id)
-          topic_lists[c.id] = ActiveModel::ArraySerializer.new(topics, each_serializer: BasicTopicSerializer).as_json
-        end
+  class ::Topic
+    def knowledge_base_index
+      if custom_fields['knowledge_base_index'] != nil
+        custom_fields['knowledge_base_index'].to_i
+      else
+        nil
       end
-
-      render json: topic_lists
-    end
-
-    def section
-      respond_to do |format|
-        format.html do
-          render :show
-        end
-
-        format.json do
-          if category.knowledge_base && topic
-            render_json_dump(
-              category_id: category.id,
-              topic_id: topic.id,
-              post: PostSerializer.new(post, scope: @guardian, root: false)
-            )
-          else
-            render json: failed_json
-          end
-        end
-      end
-    end
-
-    def show
-      respond_to do |format|
-        format.html do
-          render :show
-        end
-
-        format.json do
-          if category.knowledge_base && topic
-            render_json_dump(
-              category_id: category.id,
-              topic_id: topic.id,
-              post: PostSerializer.new(post, scope: @guardian, root: false)
-            )
-          else
-            render json: failed_json
-          end
-        end
-      end
-    end
-
-    private
-
-    def init_guardian
-      @guardian = Guardian.new(current_user)
-    end
-
-    def set_layout
-      params.key?("print") ? 'knowledge_base_print' : 'application'
-    end
-
-    def topic
-      @topic ||= begin
-        opts = {
-          category_id: category.id
-        }
-
-        if params[:action] == "show"
-          if params[:topic_id]
-            opts[:id] = params[:topic_id]
-          else
-            opts[:title] = params[:title]
-          end
-        elsif params[:action] == "section"
-          opts[:id] = category.topic_id
-        end
-
-        Topic.find_by(opts)
-      end
-    end
-
-    def category
-      @category ||= begin
-        params.require(:slug)
-        category = Category.find_by(slug: params[:slug])
-
-        unless @guardian.can_see_category?(category)
-          raise Discourse::InvalidAccess.new
-        end
-
-        category
-      end
-    end
-
-    def page_title
-      if params[:action] == "show"
-        topic.title
-      elsif params[:action] == "section"
-        category.name
-      end
-    end
-
-    def post
-      @post ||= @topic.first_post
     end
   end
+
+  add_to_serializer(:basic_topic, :knowledge_base_index) { object.knowledge_base_index }
+  add_to_serializer(:basic_topic, :include_knowledge_base_index?) { object.category && object.category.knowledge_base }
+
+  require_dependency 'topic_query'
+  class ::TopicQuery
+    SORTABLE_MAPPING['knowledge_base'] = 'custom_fields.knowledge_base_index'
+
+    def list_kb
+      @options[:order] = 'knowledge_base'
+      @options[:ascending] = "true"
+      create_list(:knowledge_base, {})
+    end
+  end
+
+  load File.expand_path('../app/controllers/knowledge_base_controller.rb', __FILE__)
 end
