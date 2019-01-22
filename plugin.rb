@@ -66,6 +66,7 @@ after_initialize do
     end
   end
 
+  TopicList.preloaded_custom_fields << 'knowledge_base_index' if TopicList.respond_to? :preloaded_custom_fields
   add_to_serializer(:basic_topic, :knowledge_base_index) { object.knowledge_base_index }
   add_to_serializer(:basic_topic, :include_knowledge_base_index?) { object.category && object.category.knowledge_base }
 
