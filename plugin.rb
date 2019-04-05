@@ -51,6 +51,8 @@ after_initialize do
     end
   end
 
+  Site.preloaded_category_custom_fields << 'knowledge_base' if Site.respond_to? :preloaded_category_custom_fields
+
   add_to_serializer(:basic_category, :knowledge_base) { object.knowledge_base }
   add_to_serializer(:basic_category, :topic_id) { object.topic_id }
 
