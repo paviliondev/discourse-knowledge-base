@@ -1,6 +1,12 @@
 import DiscourseURL from 'discourse/lib/url';
+import { default as computed } from 'ember-addons/ember-computed-decorators';
 
 export default Ember.Controller.extend({
+  @computed
+  printLabel() {
+    return this.site.mobileView ? '' : I18n.t("topic.print.title");
+  },
+
   actions: {
     goToTopic() {
       const topic = this.get('topic');

@@ -1,0 +1,12 @@
+{{#if site.mobileView}}
+  {{d-button action=toggleMenu icon="bars" class="nav-toggle"}}
+  {{knowledge-base-title toggleMenu=toggleMenu}}
+{{/if}}
+
+{{#each navList as |item|}}
+  {{knowledge-base-topic-list
+    category=item.category
+    topics=item.topics
+    currentItemId=currentItemId
+    toggleMenu=toggleMenu}}
+{{/each}}

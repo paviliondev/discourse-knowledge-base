@@ -14,6 +14,7 @@ export default Ember.Component.extend({
   click() {
     const slug = this.get('category.slug');
     const topic = this.get('topic');
+    this.toggleMenu();
     DiscourseURL.routeTo('/k' + '/' + slug + '/' + topic.slug + '/' + topic.id);
   }
 });

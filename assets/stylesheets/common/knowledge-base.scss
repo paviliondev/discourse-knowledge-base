@@ -2,13 +2,9 @@ body.crawler .knowledge-base-title {
   margin-top: 30px;
 }
 
-.knowledge-base-title {
-  margin-bottom: 10px;
+.knowledge-base-title span {
   cursor: pointer;
-}
-
-.knowledge-base {
-  padding-botto3: 60px;
+  font-size: 1.3em;
 }
 
 .knowledge-base-nav {
@@ -27,7 +23,8 @@ body.crawler .knowledge-base-title {
     background-color: $primary-low;
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 0 10px;
+    min-height: 50px;
 
     a {
       width: 100%;
@@ -50,7 +47,6 @@ body.crawler .knowledge-base-title {
     }
 
     .controls {
-      min-width: 80px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -58,7 +54,7 @@ body.crawler .knowledge-base-title {
       .btn {
         background: transparent;
 
-        &:hover {
+        &:hover .d-icon, &:hover .d-button-label {
           color: $primary;
         }
       }
@@ -99,7 +95,7 @@ body.crawler .knowledge-base-title {
 }
 
 .knowledge-base-content {
-  padding: 0 20px;
+  padding: 0 20px 40px 20px;
   overflow: hidden;
 }
 
@@ -108,6 +104,7 @@ body.crawler .knowledge-base-title {
 
   .print {
     float: right;
+    font-size: 0.8em;
   }
 
   h2 {

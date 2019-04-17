@@ -1,6 +1,7 @@
 import { default as computed, observes } from 'ember-addons/ember-computed-decorators';
 import { ajax } from 'discourse/lib/ajax';
 import { popupAjaxError } from 'discourse/lib/ajax-error';
+import DiscourseURL from 'discourse/lib/url';
 
 export default Ember.Component.extend({
   classNames: 'knowledge-base-topic-list',
@@ -84,9 +85,8 @@ export default Ember.Component.extend({
 
     sortedTopics = this.flagFirstAndLast(sortedTopics);
 
-    this.propertyWillChange('sortedTopics');
     this.set('sortedTopics', sortedTopics);
-    this.propertyDidChange('sortedTopics');
+    this.notifyPropertyChange('sortedTopics');
   },
 
   @computed('showSortControls', 'currentUser.admin')
@@ -129,6 +129,11 @@ export default Ember.Component.extend({
 
     saveSort() {
       this.saveSort();
+    },
+
+    goToCategory() {
+      this.toggleMenu();
+      DiscourseURL.routeTo(this.get('categoryUrl'));
     }
   }
 });

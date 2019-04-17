@@ -1,13 +1,12 @@
-<div class="knowledge-base-title">
-  <h2 {{action 'goToRoot'}}>{{siteSettings.knowledge_base_title}}</h2>
-</div>
-
 <div class="knowledge-base">
-  <div class="knowledge-base-nav">
-    {{#each navList as |item|}}
-      {{knowledge-base-topic-list category=item.category topics=item.topics currentItemId=currentItemId}}
-    {{/each}}
-  </div>
+  {{#unless site.mobileView}}
+    {{knowledge-base-title toggleMenu=(action 'toggleMenu')}}
+  {{/unless}}
+
+  {{knowledge-base-nav
+    topicsList=topicsList
+    expanded=menuExpanded
+    toggleMenu=(action 'toggleMenu')}}
 
   <div class="knowledge-base-content">
     {{outlet}}

@@ -6,6 +6,7 @@
 enabled_site_setting :knowledge_base_enabled
 
 register_asset 'stylesheets/common/knowledge-base.scss'
+register_asset 'stylesheets/mobile/knowledge-base.scss', :mobile
 
 if respond_to?(:register_svg_icon)
   register_svg_icon "print"
@@ -28,6 +29,7 @@ after_initialize do
 
   DiscourseKnowledgeBase::Engine.routes.draw do
     get "/" => "knowledge_base#index"
+    get "nowledge" => "knowledge_base#index"
     get "/:slug/" => "knowledge_base#section", defaults: { format: 'html' }
     get "/:slug.json" => "knowledge_base#section", defaults: { format: 'json' }
     get "/:slug/print" => "knowledge_base#section", format: :html, print: true
@@ -39,6 +41,7 @@ after_initialize do
 
   Discourse::Application.routes.append do
     mount ::DiscourseKnowledgeBase::Engine, at: "/k"
+
   end
 
   class ::Category

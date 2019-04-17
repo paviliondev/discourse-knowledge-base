@@ -1,0 +1,47 @@
+.knowledge-base {
+  position: relative;
+
+  > .knowledge-base-title {
+    padding: 0 20px;
+  }
+}
+
+.knowledge-base-nav {
+  position: fixed;
+  top: 56px;
+  left: -250px;
+  border: none;
+  transition: left 0.3s;
+  z-index: 1;
+
+  &.expanded {
+    left: 0;
+    box-shadow: shadow('dropdown');
+
+    .knowledge-base-title {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .knowledge-base-title {
+    overflow: hidden;
+    margin-bottom: 0;
+    padding: 10px;
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .nav-toggle {
+    padding: 3px 8px;
+    position: absolute;
+    right: -30px;
+    box-shadow: shadow('dropdown');
+  }
+
+  .knowledge-base-topic-list {
+    overflow: hidden;
+  }
+}

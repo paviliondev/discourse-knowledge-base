@@ -1,6 +1,9 @@
 <div class="{{categoryClass}}">
-  <a href={{categoryUrl}}>{{category.name}}</a>
+  <a {{action 'toggleList'}}>
+    {{category.name}}
+  </a>
   <div class="controls">
+    {{d-button action='goToCategory' icon="chevron-right"}}
     {{#if visible}}
       {{conditional-loading-spinner condition=saving size="small"}}
       {{#if showSortControls}}
@@ -22,7 +25,8 @@
           category=category
           currentItemId=currentItemId
           showSortControls=showSortControls
-          sort=(action "sort")}}
+          sort=(action "sort")
+          toggleMenu=toggleMenu}}
     {{/each}}
   </ul>
 </div>
