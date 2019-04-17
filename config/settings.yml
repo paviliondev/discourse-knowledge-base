@@ -5,3 +5,6 @@ plugins:
   knowledge_base_title:
     default: 'Knowledge Base'
     client: true
+  knowledge_base_expanded_nav:
+    default: true
+    client: true

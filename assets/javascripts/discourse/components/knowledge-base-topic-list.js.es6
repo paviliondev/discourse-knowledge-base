@@ -5,7 +5,7 @@ import DiscourseURL from 'discourse/lib/url';
 
 export default Ember.Component.extend({
   classNames: 'knowledge-base-topic-list',
-  visible: false,
+  visible: Discourse.SiteSettings.knowledge_base_expanded_nav,
 
   didInsertElement() {
     this.set('sortedTopics', this.flagFirstAndLast(this.get('topics')));

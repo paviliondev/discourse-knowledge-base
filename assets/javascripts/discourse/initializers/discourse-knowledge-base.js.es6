@@ -1,14 +1,11 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import NavItem from 'discourse/models/nav-item';
 
-function initializeKnowledgeBase(api) {
-
-}
-
 export default {
   name: "init-knowledge-base",
-  initialize() {
-    withPluginApi("0.8.24", initializeKnowledgeBase);
+  initialize(container) {
+    const siteSettings = container.lookup('site-settings:main');
+    if (!siteSettings.knowledge_base_enabled) return;
 
     NavItem.reopenClass({
       buildList(category, args) {
