@@ -41,7 +41,6 @@ after_initialize do
 
   Discourse::Application.routes.append do
     mount ::DiscourseKnowledgeBase::Engine, at: "/k"
-
   end
 
   class ::Category
@@ -82,6 +81,7 @@ after_initialize do
     def list_kb
       @options[:order] = 'knowledge_base'
       @options[:ascending] = "true"
+      @options[:limit] = false
       create_list(:knowledge_base, {})
     end
   end
