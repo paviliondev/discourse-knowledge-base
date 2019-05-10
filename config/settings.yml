@@ -8,3 +8,6 @@ plugins:
   knowledge_base_expanded_nav:
     default: true
     client: true
+  knowledge_base_change_category_badge_link:
+    default: false
+    client: true

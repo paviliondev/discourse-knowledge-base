@@ -3,3 +3,4 @@ en:
     knowledge_base_enabled: "Enable the knowledge base"
     knowledge_base_title: "Knowledge base title"
     knowledge_base_expanded_nav: "Knowledge base nav categories are open by default"
+    knowledge_base_change_category_badge_link: "Category badges link to the knowledge base category"
