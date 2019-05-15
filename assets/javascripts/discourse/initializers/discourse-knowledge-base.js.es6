@@ -1,5 +1,7 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import NavItem from 'discourse/models/nav-item';
+import Category from 'discourse/models/category';
+import { default as computed } from 'ember-addons/ember-computed-decorators';
 
 export default {
   name: "init-knowledge-base",
@@ -22,5 +24,19 @@ export default {
         return items;
       }
     });
+
+    if (siteSettings.knowledge_base_change_category_badge_link) {
+      withPluginApi('0.8.22', api => {
+        api.modifyClass('component:category-title-link', {
+          init() {
+            this._super();
+            const category = this.get('category');
+            if (category.knowledge_base) {
+              this.set('category.url', Discourse.getURL("/k/") + category.slug);
+            }
+          }
+        })
+      });
+    }
   }
 };

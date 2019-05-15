@@ -27,10 +27,11 @@ if (Discourse.SiteSettings.knowledge_base_change_category_badge_link) {
       if (options.categoryStyle) {
         categoryOptions.categoryStyle = options.categoryStyle;
       }
-      // UPDATE
-      if (category.knowledge_base) {
-        categoryOptions.url = `/k/${category.slug}` ;
-      }
+    }
+
+    // UPDATE
+    if (category.knowledge_base) {
+      categoryOptions.url = `/k/${category.slug}` ;
     }
 
     return new Handlebars.SafeString(
