@@ -1,9 +1,8 @@
 <div class="{{categoryClass}}">
-  <a {{action 'toggleList'}}>
+  <a {{action 'goToCategory'}}>
     {{category.name}}
   </a>
   <div class="controls">
-    {{d-button action='goToCategory' icon="chevron-right"}}
     {{#if visible}}
       {{conditional-loading-spinner condition=saving size="small"}}
       {{#if showSortControls}}
@@ -14,6 +13,7 @@
         {{d-button action="toggleSortControls" icon="list"}}
       {{/if}}
     {{/if}}
+    {{d-button action='toggleList' icon=toggleIcon}}
   </div>
 </div>
 

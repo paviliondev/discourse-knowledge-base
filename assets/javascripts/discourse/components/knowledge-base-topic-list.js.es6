@@ -94,6 +94,11 @@ export default Ember.Component.extend({
     return !showSortControls && isAdmin;
   },
 
+  @computed('visible')
+  toggleIcon(visible) {
+    return visible ? 'chevron-down' : 'chevron-right';
+  },
+
   saveSort() {
     const category = this.get('category');
     const topics = this.get('sortedTopics');
