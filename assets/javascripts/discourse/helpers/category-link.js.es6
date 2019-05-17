@@ -30,7 +30,7 @@ if (Discourse.SiteSettings.knowledge_base_change_category_badge_link) {
     }
 
     // UPDATE
-    if (category.knowledge_base) {
+    if (category && category.knowledge_base) {
       categoryOptions.url = `/k/${category.slug}` ;
     }
 
