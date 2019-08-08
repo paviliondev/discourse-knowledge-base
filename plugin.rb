@@ -42,6 +42,8 @@ after_initialize do
   Discourse::Application.routes.append do
     mount ::DiscourseKnowledgeBase::Engine, at: "/k"
   end
+  
+  Category.register_custom_field_type('knowledge_base', :boolean)
 
   class ::Category
     def knowledge_base
