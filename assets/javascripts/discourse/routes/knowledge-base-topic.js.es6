@@ -6,10 +6,16 @@ export default Discourse.Route.extend({
   },
 
   afterModel(model) {
-    this.controllerFor('knowledgeBase').set('currentItemId', model.topic_id);
+    console.log('topic after model: ', model);
+    if (model.failed) {
+      return this.replaceWith('knowledgeBase');
+    } else {
+      this.controllerFor('knowledgeBase').set('currentItemId', model.topic_id);
+    }
   },
 
   setupController(controller, model) {
+    console.log('topic: ', model);
     const topicsList = this.controllerFor('knowledgeBase').get('topicsList');
     const category = this.site.get('categories').find(c => c.id === model.category_id);
     let topics = topicsList[model.category_id];

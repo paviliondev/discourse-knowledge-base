@@ -1,4 +1,4 @@
-import { default as computed } from 'ember-addons/ember-computed-decorators';
+import { default as computed } from 'discourse-common/utils/decorators';
 import DiscourseURL from 'discourse/lib/url';
 
 export default Ember.Component.extend({
@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   },
 
   click() {
-    const slug = this.get('category.slug');
+    const slug = this.get('category.fullSlug');
     const topic = this.get('topic');
     this.toggleMenu();
     DiscourseURL.routeTo('/k' + '/' + slug + '/' + topic.slug + '/' + topic.id);

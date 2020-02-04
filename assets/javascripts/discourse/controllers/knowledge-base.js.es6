@@ -1,12 +1,13 @@
-import { default as computed, observes, on } from 'ember-addons/ember-computed-decorators';
+import { default as computed } from 'discourse-common/utils/decorators';
+import { inject as service } from "@ember/service";
 
 export default Ember.Controller.extend({
-  application: Ember.inject.controller(),
+  router: service(),
   menuExpanded: false,
 
-  @computed('application.currentPath')
-  isIndex(currentPath) {
-    return currentPath === 'knowledgeBase.index';
+  @computed('router.currentRouteName')
+  isIndex(currentRouteName) {
+    return currentRouteName === 'knowledgeBase.index';
   },
 
   actions: {

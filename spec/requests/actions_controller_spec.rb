@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DiscourseKnowledgeBase::ActionsController do
+describe KnowledgeBase::ActionsController do
   before do
     SiteSetting.queue_jobs = false
   end

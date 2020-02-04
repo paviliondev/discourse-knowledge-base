@@ -1,7 +1,8 @@
-import { default as computed, observes } from 'ember-addons/ember-computed-decorators';
+import { default as computed, observes } from 'discourse-common/utils/decorators';
 import { ajax } from 'discourse/lib/ajax';
 import { popupAjaxError } from 'discourse/lib/ajax-error';
 import DiscourseURL from 'discourse/lib/url';
+import Category from 'discourse/models/category';
 
 export default Ember.Component.extend({
   classNames: 'knowledge-base-topic-list',
@@ -30,9 +31,9 @@ export default Ember.Component.extend({
     return categoryClass;
   },
 
-  @computed('category.slug')
-  categoryUrl(slug) {
-    return '/k/' + slug;
+  @computed('category')
+  categoryUrl(category) {
+    return Discourse.getURL(`/k/${Category.slugFor(category, '_')}`);
   },
 
   @computed('visible')

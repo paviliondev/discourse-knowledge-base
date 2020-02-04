@@ -1,9 +1,9 @@
 import { acceptance } from "helpers/qunit-helpers";
 
-acceptance("DiscourseKnowledgeBase", { loggedIn: true });
+acceptance("KnowledgeBase", { loggedIn: true });
 
-test("DiscourseKnowledgeBase works", async assert => {
+test("KnowledgeBase works", async assert => {
   await visit("/admin/plugins/discourse-knowledge-base");
 
-  assert.ok(false, "it shows the DiscourseKnowledgeBase button");
+  assert.ok(false, "it shows the KnowledgeBase button");
 });

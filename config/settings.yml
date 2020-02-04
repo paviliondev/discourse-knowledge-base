@@ -11,3 +11,6 @@ plugins:
   knowledge_base_change_category_badge_link:
     default: false
     client: true
+  knowledge_base_category_list:
+    default: false
+    client: true

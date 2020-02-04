@@ -4,3 +4,4 @@ en:
     knowledge_base_title: "Knowledge base title"
     knowledge_base_expanded_nav: "Knowledge base nav categories are open by default"
     knowledge_base_change_category_badge_link: "Category badges link to the knowledge base category"
+    knowledge_base_category_list: "Show a topic list in a knowledge base category, listing topics in the knowledge base order."

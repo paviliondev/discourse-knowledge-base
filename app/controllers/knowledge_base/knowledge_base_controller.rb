@@ -1,9 +1,10 @@
-class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
-  skip_before_action :check_xhr, only: [:show, :section]
+class KnowledgeBase::KnowledgeBaseController < ::ApplicationController
   prepend_view_path(Rails.root.join('plugins', 'discourse-knowledge-base', 'app', 'views'))
+  layout :set_layout
+  
+  skip_before_action :check_xhr, only: [:show, :section]
   before_action :init_guardian
   before_action :ensure_admin, only: [:sort]
-  layout :set_layout
 
   helper_method :page_title
   helper_method :topic
@@ -28,7 +29,7 @@ class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
       end
 
       format.json do
-        if category.knowledge_base && topic
+        if category.knowledge_base && topic.present?
           render_json_dump(
             category_id: category.id,
             topic_id: topic.id,
@@ -99,7 +100,7 @@ class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
       elsif params[:action] == "section"
         opts[:id] = category.topic_id
       end
-
+      
       Topic.find_by(opts)
     end
   end
@@ -107,13 +108,20 @@ class DiscourseKnowledgeBase::KnowledgeBaseController < ::ApplicationController
   def category
     @category ||= begin
       params.require(:slug)
-      category = Category.find_by(slug: params[:slug])
+      
+      parts = params[:slug].split('_')
+      parent_slug = parts.length > 1 ? parts.first : nil
+      slug = parent_slug ? parts.last : parts.first
+      
+      category = Category.find_by_slug(slug, parent_slug)
+      
+      raise Discourse::InvalidParameters.new if category.blank?
 
-      unless @guardian.can_see_category?(category)
+      if @guardian.can_see_category?(category)
+        category
+      else
         raise Discourse::InvalidAccess.new
       end
-
-      category
     end
   end
 

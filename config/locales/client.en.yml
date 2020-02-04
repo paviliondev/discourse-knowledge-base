@@ -1,14 +1,19 @@
 en:
   js:
     knowledge_base:
-      title: "{{siteTitle}} Knowledge Base"
+      category: 
+        title: "Knowledge Base"
+        enable: "Add category to knowledge base"
+      
       description: |
-        Welcome to the knowledge base!
+        Welcome to our knowledge base!
         (you can edit this text in Admin > Customise > Text Content > "knowledge_base.description")
-      category: "Knowledge base category"
+
       go_to_topic: "Go to topic"
       save: "save"
+      title: "{{siteTitle}} Knowledge Base"
+    
     filters:
       kb:
-        title: "Knowledge Base"
         help: "List topics in the order they appear in the knowledge base."
+        title: "Knowledge Base"
