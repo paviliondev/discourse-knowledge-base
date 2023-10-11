@@ -1,5 +1,5 @@
 import { ajax } from 'discourse/lib/ajax';
-import { cookAsync } from 'discourse/lib/text';
+import { cook } from 'discourse/lib/text';
 import DiscourseURL from 'discourse/lib/url';
 
 export default Ember.Route.extend({
@@ -12,7 +12,7 @@ export default Ember.Route.extend({
       topicsList: model
     });
 
-    cookAsync(I18n.t('knowledge_base.description')).then((cooked) => {
+    cook(I18n.t('knowledge_base.description')).then((cooked) => {
       controller.set('description', cooked);
     });
   }
